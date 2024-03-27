@@ -1,1 +1,207 @@
+class Array:
 
+    def __init__(self,data=None):
+        self.data= data
+        self.next= None
+
+def createList():
+    return None 
+
+def insertList(lst,value):
+    new= Array(value)
+    new.next= lst
+    return new
+
+def printList(lst):
+    current= lst
+    while current is not None:
+        print(current.data)
+        current= current.next
+
+def listRemove(lst,value):
+    prev= None
+    current= lst
+
+    while current:
+        if current.data==value:
+            if prev:
+                prev.next= current.next
+            else:
+                lst= current.next
+
+        else:
+            prev=current
+        current= current.next
+    return lst
+
+def divideList(lst,n):
+    current=lst 
+    while current is not None and current.data != n:
+        current= current.next
+    
+    if current is None:
+        return None
+    
+    secondList= current.next
+    current.next= None
+
+    return secondList
+
+def merge(l1,l2):
+    if l1 is None:
+        return l2
+    
+    if l2 is None:
+        return l1
+    
+    dummy= Array(None)
+    current= dummy
+
+    while l1 is not None and l2 is not None:
+        current.next= l1
+        l1= l1.next
+        current= current.next
+
+        current.next= l2
+        l2= l2.next
+        current= current.next 
+
+    if l1 is not None:
+        current.next= l1
+
+    elif  l2 is not None:
+        current.next= l2
+    
+    return dummy.next
+
+def invert(lst):
+    if lst is None or lst.next is None:
+        return lst
+    
+    prev= None
+    current=lst
+    nxt= None
+
+    while current is not None:
+        nxt= current.next
+        current.next= prev
+        prev= current
+        current= nxt
+    
+    lst= prev
+
+    return lst
+
+def equal(l1,l2):
+    while l1 is not None and l2 is not None:
+        if l1.data!=l2.data:
+            return False
+        
+        l1= l1.next
+        l2= l2.next
+
+    if l1 is not None or l2 is not None:
+        return False
+    
+    return True
+
+def copy(lst):
+    if lst is None:
+        return None
+    
+    newList= Array(lst.data)
+    currentOriginal= lst.next
+    currentCopied= newList
+
+    while currentOriginal is not None:
+        new= Array(currentOriginal.data)
+        currentCopied.next= new
+        currentCopied= currentCopied.next
+        currentOriginal= currentOriginal.next
+
+    return newList
+
+def insertCircular(circularList,value):
+    new= Array(value)
+    if not circularList:
+        circularList=new
+        new.next=circularList
+    else:
+        current=circularList
+        while current.next!=circularList:
+            current=current.next
+        current.next= new
+        new.next=circularList
+
+def remove(circularList,value):
+    if not circularList:
+        return
+    
+    if circularList.data== value:
+        current= circularList
+        while current.next != circularList:
+            current= current.next
+        if circularList==circularList.next:
+            circularList= None
+        else:
+            current.next= circularList.next
+            circularList= circularList.next
+
+    else:
+        prev= None
+        current= circularList
+        while current.next!=circularList:
+            prev= current
+            current= current.next
+            if current.data== value:
+                prev.next= current.next
+                current= current.next
+
+lst= createList()
+lst=insertList(lst,50)
+lst=insertList(lst,60)
+lst=insertList(lst,10)
+lst=insertList(lst,30)
+lst=insertList(lst,70)
+lst=insertList(lst,80)
+printList(lst)
+print("---------------")
+listRemove(lst,60)
+printList(lst)
+print("---------------")
+secondList= divideList(lst,30)
+printList(lst)
+print("---------------")
+printList(secondList)
+mergeList= merge(lst,secondList)
+print("---------------")
+printList(mergeList)
+invertList= invert(mergeList)
+print("---------------")
+printList(invertList)
+lst2=createList()
+lst3=createList()
+lst2=insertList(lst2,"a")
+lst2=insertList(lst2,"b")
+lst2=insertList(lst2,"c")
+lst3=insertList(lst3,"a")
+lst3=insertList(lst3,"b")
+lst3=insertList(lst3,"c")
+print("---------------")
+if equal(lst2,lst3):
+    print("As listas são iguais")
+
+else:
+    print("As listas são diferentes")
+
+copiedList= copy(invertList)
+print("---------------")
+printList(copiedList)
+circularList= createList()
+circularList= insertCircular(circularList,70)
+circularList= insertCircular(circularList,100)
+circularList= insertCircular(circularList,90)
+circularList= insertCircular(circularList,80)
+circularList= insertCircular(circularList,10)
+remove(circularList,10)
+printList(circularList)
